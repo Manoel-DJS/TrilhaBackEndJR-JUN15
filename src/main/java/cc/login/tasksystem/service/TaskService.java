@@ -1,0 +1,33 @@
+package cc.login.tasksystem.service;
+
+import cc.login.tasksystem.controllers.dto.CreateTaskDto;
+import cc.login.tasksystem.models.Task;
+import cc.login.tasksystem.repository.TaskRepository;
+import cc.login.tasksystem.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+public class TaskService {
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public void createTask(String userId, CreateTaskDto createTaskDto) {
+        var user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new RuntimeException("ID não encontrado"));
+
+        // DTO -> Entity
+        var taskUser = new Task();
+        taskUser.setUser(user);
+        taskUser.setTitleTask(createTaskDto.titleTask());
+        taskUser.setDescription(createTaskDto.description());
+
+        var TaskCreated = taskRepository.save(taskUser);
+    }
+
+}
