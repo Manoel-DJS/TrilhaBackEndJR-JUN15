@@ -20,4 +20,11 @@ public class TaskController {
         taskService.createTask(userId, createTaskDto);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{userId}/tasks")
+    public ResponseEntity<Void> deleteTaskUserById(@PathVariable("userId")
+                                                       String userId, Long taskId){
+        taskService.deleteTaskUserById(userId, taskId);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -30,4 +30,15 @@ public class TaskService {
         var TaskCreated = taskRepository.save(taskUser);
     }
 
+    public void deleteTaskUserById(String userId, Long taskId) {
+        var userExists = userRepository.findById(UUID.fromString(userId));
+        var taskExists = taskId;
+
+        if(userExists.isPresent() && taskExists != null){
+            var deletedTask = new Task();
+            deletedTask.setUser(userExists.get());
+            deletedTask.setId(taskExists);
+            taskRepository.delete(deletedTask);
+        }
+    }
 }
