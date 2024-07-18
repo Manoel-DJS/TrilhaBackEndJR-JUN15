@@ -1,6 +1,7 @@
 package cc.login.tasksystem.controllers;
 
 import cc.login.tasksystem.controllers.dto.CreateTaskDto;
+import cc.login.tasksystem.controllers.dto.UpdateTaskDto;
 import cc.login.tasksystem.models.User;
 import cc.login.tasksystem.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,13 @@ public class TaskController {
                                                @RequestBody CreateTaskDto createTaskDto){
         taskService.createTask(userId, createTaskDto);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{userId}/tasks")
+    public ResponseEntity<Void> updateTaskUserById(@PathVariable("userId") String userId, Long taskId,
+                                                   @RequestBody UpdateTaskDto updateTaskDto){
+        taskService.updateTaskUserById(userId, taskId, updateTaskDto);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{userId}/tasks")

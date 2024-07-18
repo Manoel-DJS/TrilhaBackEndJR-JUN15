@@ -1,6 +1,7 @@
 package cc.login.tasksystem.service;
 
 import cc.login.tasksystem.controllers.dto.CreateTaskDto;
+import cc.login.tasksystem.controllers.dto.UpdateTaskDto;
 import cc.login.tasksystem.models.Task;
 import cc.login.tasksystem.repository.TaskRepository;
 import cc.login.tasksystem.repository.UserRepository;
@@ -39,6 +40,26 @@ public class TaskService {
             deletedTask.setUser(userExists.get());
             deletedTask.setId(taskExists);
             taskRepository.delete(deletedTask);
+        }
+    }
+
+    public void updateTaskUserById(String userId, Long taskId, UpdateTaskDto updateTaskDto) {
+        var user = userRepository.findById(UUID.fromString(userId));
+        var task = taskRepository.findById(taskId);
+
+        if(user.isPresent() && task.isPresent()){
+
+            var useri = user.get();
+            var newUserTask = task.get();
+
+            if(updateTaskDto.titleTask() != null){
+                newUserTask.setTitleTask(updateTaskDto.titleTask());
+            }
+            if(updateTaskDto.description() != null){
+                newUserTask.setDescription(updateTaskDto.description());
+            }
+
+            taskRepository.save(newUserTask);
         }
     }
 }
