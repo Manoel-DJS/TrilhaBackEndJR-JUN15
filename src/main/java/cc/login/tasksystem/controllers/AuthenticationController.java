@@ -1,9 +1,11 @@
 package cc.login.tasksystem.controllers;
 
 import cc.login.tasksystem.controllers.dto.AuthenticationDto;
+import cc.login.tasksystem.controllers.dto.LoginResponseDto;
 import cc.login.tasksystem.controllers.dto.RegisterUserDto;
 import cc.login.tasksystem.models.User;
 import cc.login.tasksystem.repository.UserRepository;
+import cc.login.tasksystem.service.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +27,17 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDto authenticationDto){
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDto.username(), authenticationDto.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 
     @PostMapping("/register")
