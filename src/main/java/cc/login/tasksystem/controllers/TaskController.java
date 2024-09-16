@@ -28,6 +28,12 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createAuthTask(requestDto));
     }
 
+    // Update AuthTask 'OK'
+    @PutMapping("/authUpdateTask/{idTask}")
+    public ResponseEntity<TaskResponseDto> updateAuthTask(@RequestBody TaskRequestDto requestDto, @PathVariable long idTask){
+        return ResponseEntity.status(HttpStatus.OK).body(taskService.updateAuthTask(requestDto, idTask));
+    }
+
     @PostMapping("/{userId}")
     public ResponseEntity<User> createTaskUser(@PathVariable("userId") String userId,
                                                @RequestBody CreateTaskDto createTaskDto){
