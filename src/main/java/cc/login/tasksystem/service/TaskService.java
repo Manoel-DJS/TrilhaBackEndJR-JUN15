@@ -47,7 +47,7 @@ public class TaskService {
         return toDto(taskRepository.save(newTask));
     }
 
-    // update TaskAuth Refazer
+    // update TaskAuth 'OK'
 
     public TaskResponseDto updateAuthTask(TaskRequestDto requestDto, long id){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -71,6 +71,25 @@ public class TaskService {
             }
 
             return toDto(taskRepository.save(task));
+        } else {
+            throw new SecurityException("Você não tem permissão para alterar esta tarefa.");
+        }
+    }
+
+    public void deleteAuthTask(long taskId){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        User user = (User) userRepository.findByUsername(username);
+
+        var task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new NoSuchElementException("Tarefa com ID " + taskId + " não encontrada."));
+
+        if(user != null && task.getUser().getUserid().equals(user.getUserid())){
+            var deletedTask = new Task();
+            deletedTask.setUser(user);
+            deletedTask.setId(taskId);
+
+            taskRepository.delete(deletedTask);
         } else {
             throw new SecurityException("Você não tem permissão para alterar esta tarefa.");
         }

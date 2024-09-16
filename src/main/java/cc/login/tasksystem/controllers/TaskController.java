@@ -29,9 +29,16 @@ public class TaskController {
     }
 
     // Update AuthTask 'OK'
-    @PutMapping("/authUpdateTask/{idTask}")
+    @PutMapping("/authTask/{idTask}")
     public ResponseEntity<TaskResponseDto> updateAuthTask(@RequestBody TaskRequestDto requestDto, @PathVariable long idTask){
         return ResponseEntity.status(HttpStatus.OK).body(taskService.updateAuthTask(requestDto, idTask));
+    }
+
+    // DeleteAuthTask
+    @DeleteMapping("authTask/{idTask}")
+    public ResponseEntity<Void> deleteAuthTask(@PathVariable long idTask){
+        taskService.deleteAuthTask(idTask);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{userId}")
