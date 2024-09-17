@@ -52,14 +52,14 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{userId}/tasks")
+    @PutMapping("/{userId}")
     public ResponseEntity<Void> updateTaskUserById(@PathVariable("userId") String userId, Long taskId,
                                                    @RequestBody UpdateTaskDto updateTaskDto){
         taskService.updateTaskUserById(userId, taskId, updateTaskDto);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{userId}/tasks")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteTaskUserById(@PathVariable("userId")
                                                        String userId, Long taskId){
         taskService.deleteTaskUserById(userId, taskId);

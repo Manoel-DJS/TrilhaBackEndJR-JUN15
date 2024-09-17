@@ -30,4 +30,10 @@ public class UserController {
         var users = userService.ListUsers();
         return ResponseEntity.ok(users);
     }
+
+    // Teste
+    @GetMapping("Testing")
+    public ResponseEntity<String> getUser(){
+        return ResponseEntity.ok("OK!");
+    }
 }

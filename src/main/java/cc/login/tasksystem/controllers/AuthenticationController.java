@@ -6,6 +6,7 @@ import cc.login.tasksystem.controllers.dto.RegisterUserDto;
 import cc.login.tasksystem.models.User;
 import cc.login.tasksystem.repository.UserRepository;
 import cc.login.tasksystem.service.TokenService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth")
+@Tag(name = "Authentication", description = "Login")
 public class AuthenticationController {
 
     @Autowired
@@ -33,8 +35,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDto authenticationDto){
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDto.username(), authenticationDto.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-
+        var auth = authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDto(token));
@@ -46,7 +47,6 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().build();
         }
             String encryptedPassword = new BCryptPasswordEncoder().encode(registerUserDto.password());
-
         // New User
             User newUser = new User();
             newUser.setUsername(registerUserDto.username());
@@ -57,5 +57,4 @@ public class AuthenticationController {
 
         return ResponseEntity.ok().build();
     }
-
 }

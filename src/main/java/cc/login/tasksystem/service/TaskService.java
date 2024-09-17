@@ -1,9 +1,6 @@
 package cc.login.tasksystem.service;
 
-import cc.login.tasksystem.controllers.dto.CreateTaskDto;
-import cc.login.tasksystem.controllers.dto.TaskRequestDto;
-import cc.login.tasksystem.controllers.dto.TaskResponseDto;
-import cc.login.tasksystem.controllers.dto.UpdateTaskDto;
+import cc.login.tasksystem.controllers.dto.*;
 import cc.login.tasksystem.models.Task;
 import cc.login.tasksystem.models.User;
 import cc.login.tasksystem.repository.TaskRepository;
@@ -16,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -28,7 +26,6 @@ public class TaskService {
     public User getTaskById(String userId){
         return userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new RuntimeException("ID não encontrado"));
-        // Terminar isso aq
     }
 
     // TASK AUTHENTICADIX
@@ -99,6 +96,28 @@ public class TaskService {
         return taskRepository.findAll().stream().map(this::toDto).toList();
     }
 
+    public List<GetTaskResponseDto> findTaskAuthUser(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+
+        User user = (User) userRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new NoSuchElementException("Usuário não encontrado.");
+        }
+
+        // Busca todas as tarefas e filtra pelas que pertencem ao usuário logado
+        List<Task> userTasks = taskRepository.findAll()
+                .stream()
+                .filter(task -> task.getUser().getUserid().equals(user.getUserid())) // Filtra por ID do usuário
+                .toList();
+
+        // Converte a lista de tarefas para DTOs e retorna
+        return userTasks.stream()
+                .map(this::toDtu) // Conversão para TaskResponseDto
+                .collect(Collectors.toList());
+    }
+
     public void createTask(String userId, CreateTaskDto createTaskDto) {
         var user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new RuntimeException("ID não encontrado"));
@@ -146,5 +165,9 @@ public class TaskService {
 
     private TaskResponseDto toDto(Task task){
         return new TaskResponseDto(task.getTitleTask(), task.getDescription()) ;
+    }
+
+    private GetTaskResponseDto toDtu(Task task){
+        return new GetTaskResponseDto(task.getId(), task.getTitleTask(), task.getDescription());
     }
 }
