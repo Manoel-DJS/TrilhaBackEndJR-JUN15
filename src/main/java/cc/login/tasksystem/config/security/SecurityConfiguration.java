@@ -31,10 +31,22 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(PUBLIC_MATCHERS).permitAll() // permissão visual
+
+                        // Login
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/end/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/end/users").permitAll()
+
+                        // ADMIN 777
+                        .requestMatchers(HttpMethod.DELETE, "/api/admin777/{userId}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/admin777/{userId}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/end/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/admin777").hasRole("ADMIN")
+
+                        // Rota Task Admin
+                        .requestMatchers(HttpMethod.GET, "/end/tasks").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/end/tasks/{userId}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/end/tasks/{userId}").hasRole("ADMIN")
+
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
