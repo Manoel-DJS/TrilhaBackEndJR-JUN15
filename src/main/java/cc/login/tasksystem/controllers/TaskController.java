@@ -1,9 +1,6 @@
 package cc.login.tasksystem.controllers;
 
-import cc.login.tasksystem.controllers.dto.CreateTaskDto;
-import cc.login.tasksystem.controllers.dto.TaskRequestDto;
-import cc.login.tasksystem.controllers.dto.TaskResponseDto;
-import cc.login.tasksystem.controllers.dto.UpdateTaskDto;
+import cc.login.tasksystem.controllers.dto.*;
 import cc.login.tasksystem.models.Task;
 import cc.login.tasksystem.models.User;
 import cc.login.tasksystem.service.TaskService;
@@ -40,6 +37,13 @@ public class TaskController {
         taskService.deleteAuthTask(idTask);
         return ResponseEntity.ok().build();
     }
+
+    // Get AuthTask
+    @GetMapping("authTask/")
+    public ResponseEntity<List<GetTaskResponseDto>> findTaskAuthUser(){
+        return ResponseEntity.ok().body(taskService.findTaskAuthUser());
+    }
+
 
     @PostMapping("/{userId}")
     public ResponseEntity<User> createTaskUser(@PathVariable("userId") String userId,
