@@ -11,8 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // @Value("${cors.allowed.origins}")
-    // private String[] allowedOrigins;
+    @Value("${cors.allowed.origins}")
+    private String[] allowedOrigins;
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
@@ -31,11 +31,12 @@ public class WebConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")  // Permite requisições para qualquer rota
-                        .allowedOrigins("https://trilhabackendjr-jun15-render.onrender.com/")  // Origem permitida
+                        .allowedOrigins(allowedOrigins)  // Origem permitida
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // Métodos permitidos
                         .allowedHeaders("*")  // Todos os cabeçalhos são permitidos
                         .allowCredentials(true);  // Permite o uso de credenciais (como cookies)
             }
         };
     }
+
 }
