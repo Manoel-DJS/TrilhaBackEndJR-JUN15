@@ -21,7 +21,7 @@ public class Swagger {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .group("task_API")
+                .group("Task_API")
                 .displayName("Tarefa API")
                 .pathsToMatch("/**")
                 .build();
@@ -37,9 +37,15 @@ public class Swagger {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info().title("Task_API")
-                        .description("Standard project for authentication and authorization.")
+                        .description("API REST para gerenciar Tarefas. DESAFIO Código-Certo")
                         .version("v0.0.1")
-                        .license(new License().name("Spring Doc").url("http://springdoc.org")))
+                        .contact(new Contact()
+                                .name("@Manoel")
+                                .email("vinesouza9x9@gmail.com")
+                        )
+                        .license(new License()
+                                .name("MIT LICENSE")
+                                .url("https://github.com/Manoel-DJS")))
                 .components(
                         new Components().addSecuritySchemes("Bearer", new SecurityScheme().type(SecurityScheme.Type.HTTP)
                         .scheme("Bearer")
