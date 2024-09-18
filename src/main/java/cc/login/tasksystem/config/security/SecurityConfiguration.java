@@ -18,8 +18,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
-    private static final String[] PUBLIC_MATCHERS = {"/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "https://trilhabackendjr-jun15-render.onrender.com"};
-    // permitir o swagger-ui
+    private static final String[] PUBLIC_MATCHERS = {
+            "/v3/api-docs/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/swagger-resource/**",
+            "https://trilhabackendjr-jun15-render.onrender.com"}; // Achei que ia da certo k
 
     @Autowired
     private SecurityFilter securityFilter;
