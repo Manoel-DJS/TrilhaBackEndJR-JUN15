@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin777")
-@Tag(name = "ADMIN-777", description = "userAdmin")
+@RequestMapping("/user/admin")
+@Tag(name = "ADMIN", description = "userAdmin")
 public class UserAdminController {
     @Autowired
     private UserService userService;

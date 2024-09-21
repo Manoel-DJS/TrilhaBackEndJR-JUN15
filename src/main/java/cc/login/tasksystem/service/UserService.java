@@ -19,21 +19,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
-    public UUID createUser(CreateUserDto userDto){
-
-        // DTO -> ENTITY
-        var entity = new User();
-        entity.setUserid(UUID.randomUUID());
-        entity.setUsername(userDto.username());
-        entity.setPassword(userDto.password());
-
-
-        var userSaved = userRepository.save(entity);
-
-        return userSaved.getUserid();
-    }
-
     public List<User> ListUsers(){
         return userRepository.findAll();
     }

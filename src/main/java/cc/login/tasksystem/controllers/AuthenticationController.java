@@ -9,6 +9,7 @@ import cc.login.tasksystem.service.TokenService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,6 +56,6 @@ public class AuthenticationController {
 
         this.userRepository.save(newUser);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "application/json").body("{\"message\":\"Usuário Criado Com Sucesso!\"}");
     }
 }

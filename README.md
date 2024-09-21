@@ -3,11 +3,6 @@
 # 📚 Trilha Inicial BackEnd Jr
 Este projeto tem como objetivo desenvolver uma API RESTful para gerenciamento de tarefas, proporcionando funcionalidades de CRUD (Create, Read, Update, Delete) de tarefas, autenticação de usuários e armazenamento dos dados em um banco de dados.
 
-## Objetivos:
-- Criar uma API que permita CRUD (Create, Read, Update, Delete) de tarefas.
-- Implementar autenticação de usuários.
-- Utilizar um banco de dados SQLite para armazenar as tarefas.
-- Documentar todo o processo e apresentar as conclusões.
 
 ---
 ## Tecnologias Utilizadas
@@ -97,7 +92,6 @@ Para deleter as tarefas do Usuário autenticado.
 ---
 
 🔗 **Mantenha-se Conectado Comigo:**
-
 
 - [Meu LinkedIn](https://www.linkedin.com/in/manoel-vinicius-844692249/)
 - [Meu github](https://github.com/Manoel-DJS)
